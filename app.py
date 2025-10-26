@@ -10,7 +10,7 @@ conexao = mysql.connector.connect(
 cursor = conexao.cursor()
 
 
-"""dep = input(str('Qual departamento você deseja inserir? '))
+dep = input(str('Qual departamento você deseja inserir? '))
 cursor.execute('INSERT INTO departamento (nome_departamento) VALUES (%s);', (dep, ))
 conexao.commit()
 
@@ -28,7 +28,7 @@ cursor.execute('''UPDATE departamento
 SET nome_departamento = %s
 WHERE departamento_id = %s;''',(nome, id))
 
-conexao.commit()"""
+conexao.commit()
 
 cursor.execute('SELECT * FROM departamento')
 resultado2 = cursor.fetchall()
