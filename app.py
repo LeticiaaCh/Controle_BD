@@ -9,46 +9,83 @@ conexao = mysql.connector.connect(
 
 cursor = conexao.cursor()
 
+##__________________________________________________________________________
 
-dep = input(str('Qual departamento você deseja inserir? '))
-cursor.execute('INSERT INTO departamento (nome_departamento) VALUES (%s);', (dep, ))
-conexao.commit()
+print('[1] Inserir dados \n[2] Atualizar dados \n[3] Excluir dados' )
+
+pergunta = int(input('O que você deseja fazer? '))
+
+##__________________________________________________________________________
+
+##INSERÇÃO DO DEPARTAMENTO
+if pergunta == 1:
+    
+    insert_dp = input('Qual departamento você deseja inserir? ')
+    comando = 'INSERT INTO departamento (nome_departamento) VALUES (%s)'
+    cursor.execute (comando, (insert_dp, ))
+    conexao.commit()
+
+    cursor.execute('SELECT * FROM departamento;')
+    resultado = cursor.fetchall()
+    print(resultado)
+
+    cursor.close()
+    conexao.close()
+
+##__________________________________________________________________________
+
+##ATUALIZAÇÃO DO DEPARTAMENTO
+elif pergunta == 2:
+
+    cursor.execute('SELECT * FROM departamento;')
+    resultado = cursor.fetchall()
+    print(resultado)
+
+    id_dp = input('Digite o id do departamento que você deseja alterar: ')
+    novo_dp = input('Qual é o novo nome do departamento escolhido? ')
+    
+    comando = '''UPDATE departamento
+    SET nome_departamento = %s
+    WHERE departamento_id = %s'''
+
+    cursor.execute(comando, (novo_dp, id_dp))
+    conexao.commit()
+
+    cursor.execute('SELECT * FROM departamento')
+    resultado = cursor.fetchall()
+    print(resultado)
+
+    cursor.close()
+    conexao.close()
+
+##__________________________________________________________________________
+
+##EXCLUSÃO DO DEPARTAMENTO
+elif pergunta == 3:
+
+    cursor.execute('SELECT * FROM departamento;')
+    resultado = cursor.fetchall()
+    print(resultado)
+
+    excl_dp = input('Qual é o id do departamento que deseja excluir? ')
+    comando = '''DELETE FROM departamento
+    WHERE departamento_id = %s'''
+    cursor.execute(comando, (excl_dp, ))
+    conexao.commit()
+
+    cursor.execute('SELECT * FROM departamento')
+    resultado = cursor.fetchall()
+    print(resultado)
+
+    cursor.close()
+    conexao.close()
+
+##__________________________________________________________________________
 
 
-cursor.execute('SELECT * FROM departamento;')
-resultado = cursor.fetchall()
-print(resultado)
-
-
-nome = input('Qual é o novo nome do departamento escolhido? ')
-id = input('Digite o id do departamento que você deseja alterar: ')
-
-
-cursor.execute('''UPDATE departamento
-SET nome_departamento = %s
-WHERE departamento_id = %s;''',(nome, id))
-
-conexao.commit()
-
-cursor.execute('SELECT * FROM departamento')
-resultado2 = cursor.fetchall()
-print(resultado2)
-
-
-
-excl = input('Qual é o id do departamento que deseja excluir? ')
-cursor.execute('''DELETE FROM departamento
-WHERE departamento_id = %s;''', (excl, ))
-conexao.commit()
-
-cursor.execute('SELECT * FROM departamento')
-resultado3 = cursor.fetchall()
-print(resultado3)
 
 
 
 
 
 
-cursor.close()
-conexao.close()
